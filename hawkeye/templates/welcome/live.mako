@@ -1,19 +1,26 @@
-<!--  
-<img src="http://admin:123zxc@172.30.235.183/video/mjpg.cgi?.mjpg" height="240" width="320"/>
--->
+<%inherit file="/base/base.mako"/> 
+<%block name='script'>
 <script type="text/javascript">
+
+$(function(){
+	$('#home').button();	
+});
 function updateImage()
 {
 	var image = document.getElementById("display");
     if(image.complete) {
     	var timestamp = new Date().getTime();
-        image.src = "http://admin:123zxc@172.30.235.183/image/jpeg.cgi?date="+timestamp;
-
+    	var str = "${url}";
+        image.src = str.substr(0,str.lastIndexOf('.')) + 'data=' +timestamp;
+        
     }
-
     setTimeout(updateImage, 1000);
 }
 </script>
-
-<img id="display" src="http://admin:123zxc@172.30.235.183/image/jpeg.cgi?.jpg" height="240" width="320" onload="updateImage();"/><br/>
-<a href="/home"><input type="button"  value="Home"></a>
+</%block>
+<%block name='menu'>
+<div class="menu">
+	<a href="/home" id="home" >Back</a>
+</div>
+</%block>
+<img id="display" src="${url}" height="100%" width="100%" onload="updateImage();"/><br/>

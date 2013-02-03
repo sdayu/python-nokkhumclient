@@ -1,14 +1,516 @@
-html,body {
+html,body{
 	margin: 0;
-	padding: 0;
-	height: 100%;
-	box-shadow:inset 0px 0px 30px 20px rgba(0,0,0,0.6);
-	background-image:url('images/background.png');
-	background-repeat:repeat;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+	box-shadow: inset 0px 0px 30px 20px rgba(0, 0, 0, 0.6);
+	background-image: url('images/background.png');
+	background-repeat: repeat;
+}
+
+#wrapper {
+	position: absolute;
+    overflow: auto;
+    left: 0;
+    right: 0;
+    top: 42px;
+    bottom: 0;
+	font-family: arial, helvetica, sans-serif;
+	/* border: 5px solid red; */
+}
+
+.nomenu{
+	top:0;
+}
+
+.onoffswitch {
+    position: relative; width: 80px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+
+.onoffswitch-checkbox {
+    display: none;
+}
+
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #A7ABA7; border-radius: 5px;
+}
+
+.onoffswitch-inner {
+    width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    float: left; width: 50%; height: 25px; padding: 0; line-height: 25px;
+    font-size: 13px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+.onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 6px;
+    background-color: #71ED8E; color: #FFFFFF;
+}
+
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 6px;
+    background-color: #F79191; color: #555555;
+    text-align: right;
+}
+
+.onoffswitch-switch {
+    width: 38px; margin: 0px;
+    background: #FFFFFF;
+    border: 2px solid #A7ABA7; border-radius: 5px;
+    position: absolute; top: 0; bottom: 0; right: 38px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
+    background-image: -moz-linear-gradient(center top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
+    background-image: -webkit-linear-gradient(center top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
+    background-image: -o-linear-gradient(center top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
+    background-image: linear-gradient(center top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
+}
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
 }
 
 
-/* ---- form ----*/
+/* --- file --- */
+.folder {
+	width:120px;
+	height:120px;
+	float:left;
+	background:url('images/storage/folder.png') no-repeat center; 
+}
+
+.fname{
+	margin: 90px 0 0 0;
+	text-align: center;
+	padding:0 10px 10px 10px;
+	word-wrap: break-word;
+}
+/*
+.folder {
+	float: left;
+	display: block;
+	width: 120px;
+	padding: 46px 10px 10px 10px;
+	background: no-repeat url('images/storage/folder.png') top center;
+	text-align: center;
+	word-wrap: break-word;
+}
+
+.folder:hover {
+	background: no-repeat url('images/storage/overfolder.png') top center;
+}
+*/
+.picture {
+	width:120px;
+	height:120px;
+	float:left;
+	background:url('images/storage/picture.png') no-repeat center; 
+}
+
+/* .picture :hover {
+	background: no-repeat url('images/storage/overpicture .png') top center;
+} */
+
+
+.video {
+	width:120px;
+	height:150px;
+	float:left;
+	background:url('images/storage/video.png') no-repeat center; 
+}
+
+.video .fname{
+	margin: 105px 0 0 0;
+	text-align: center;
+	padding:0 10px 10px 10px;
+	word-wrap: break-word;
+}
+/*
+.video :hover {
+	background: no-repeat url('images/storage/overvideo .png') top center;
+}*/
+/* --- menu --- */
+.menu {
+	clear: both;
+	width: auto;
+	border-top: 1px solid #a7aba7;
+	border-bottom: 1px solid #a7aba7;
+	height: 30px;
+	padding: 5px;
+	background-color: #ededed;
+}
+.menu .right{
+	clear: both;
+	float: right;
+}
+/* --- login --- */
+#login {
+	background-color: #fff;
+	position: absolute;
+	width: 250px;
+	height: 112px;
+	left: 50%;
+	top: 50%;
+	margin-left: -125px;
+	margin-top: -60px;
+	padding: 12px 5px 0px 5px;
+	-webkit-border-radius: 3px;
+	-webkit-box-shadow: 0px 0px 20px 0.8px #000;
+}
+
+#login .logo {
+	
+}
+
+#login .centered{
+	width:193px;
+	margin:0 9px 0 auto;
+}
+
+#login .validate {
+	position: absolute;
+	width: 220px;
+	margin: -50px 7px 0px 7px;
+	background: #ff3366;
+	border: 1px solid #ff6699;
+	padding: 6px;
+	font-size: 14px;
+	text-align: center;
+	-webkit-border-radius: 3px;
+	opacity: 0.0;
+	-webkit-animation: Opacity 3s;
+	-webkit-animation-iteration-count: 1;
+}
+
+@-webkit-keyframes Opacity {
+	from {opacity: 1.0;}
+    to {opacity: 0.0;}
+}
+
+#login input[type=text],input[type=password] {
+	width: 232px;
+	height: 26px;
+	margin: 0 7px 5px 7px;
+	background: #efefef;
+	border: 1px solid #dedede;
+	font-size: 14px;
+	-webkit-border-radius: 3px;
+}
+
+/* --- register --- */
+
+#register {
+	background-color: #fff;
+	position: absolute;
+	width: 250px;
+	height: 220px;
+	left: 50%;
+	top: 50%;
+	margin-left: -125px;
+	margin-top: -110px;
+	padding: 12px 5px 0px 5px;
+	-webkit-border-radius: 3px;
+	-webkit-box-shadow: 0px 0px 20px 0.8px #000;
+}
+
+#register input[type=text],input[type=password] {
+	width: 232px;
+	height: 26px;
+	margin: 0 7px 5px 7px;
+	background: #efefef;
+	border: 1px solid #dedede;
+	font-size: 14px;
+	-webkit-border-radius: 3px;
+}
+
+#register .centered{
+	width:215px;
+	margin:0 9px 0 auto;
+}
+
+#register .validate {
+	position: absolute;
+	width: 220px;
+	margin: -50px 7px 0px 7px;
+	background: #ff3366;
+	border: 1px solid #ff6699;
+	padding: 6px;
+	font-size: 14px;
+	text-align: center;
+	-webkit-border-radius: 3px;
+	opacity: 0.0;
+	-webkit-animation: Opacity 3s;
+	-webkit-animation-iteration-count: 1;
+}
+
+@-webkit-keyframes Opacity {
+	from {opacity: 1.0;}
+    to {opacity: 0.0;}
+}
+
+/* --- addproject & editproject--- */
+
+#addproject {
+	background-color: #fff;
+	position: absolute;
+	width: 250px;
+	height: 176px;
+	left: 50%;
+	top: 50%;
+	margin-left: -125px;
+	margin-top: -88px;
+	padding: 12px 5px 0px 5px;
+	-webkit-border-radius: 3px;
+	-webkit-box-shadow: 0px 0px 20px 0.8px #000;
+}
+
+#addproject input[type=text],input[type=password],textarea {
+	width: 232px;
+	height: 26px;
+	margin: 0 7px 5px 7px;
+	background: #efefef;
+	border: 1px solid #dedede;
+	font-size: 14px;
+	-webkit-border-radius: 3px;
+}
+
+#addproject textarea {
+	width: 232px;
+	height: 78px;
+	margin: 0 7px 5px 7px;
+	background: #efefef;
+	border: 1px solid #dedede;
+	font-size: 14px;
+	-webkit-border-radius: 3px;
+}
+
+#addproject .centered{
+	width:195px;
+	margin:0 9px 0 auto;
+}
+
+#addproject .validate {
+	position: absolute;
+	width: 220px;
+	margin: -50px 7px 0px 7px;
+	background: #ff3366;
+	border: 1px solid #ff6699;
+	padding: 6px;
+	font-size: 14px;
+	text-align: center;
+	-webkit-border-radius: 3px;
+	opacity: 0.0;
+	-webkit-animation: Opacity 3s;
+	-webkit-animation-iteration-count: 1;
+}
+
+@-webkit-keyframes Opacity {
+	from {opacity: 1.0;}
+    to {opacity: 0.0;}
+}
+
+/* --- profile --- */
+#profilep {
+	background-color: #fff;
+	position: absolute;
+	width: 280px;
+	height: 150px;
+	left: 50%;
+	top: 50%;
+	margin-left: -140px;
+	margin-top: -75px;
+	padding: 12px 5px 0px 5px;
+	-webkit-border-radius: 3px;
+	-webkit-box-shadow: 0px 0px 20px 0.8px #000;
+}
+
+#profilep .centered{
+	width:59px;
+	margin:0 auto 0 auto;
+}
+
+#profilep dl {clear: both;}
+#profilep dt {float: left;text-align: right;width: 80px;line-height: 25px;margin: 0 0 0 0;}
+#profilep dd {float: left;width: 130px;line-height: 25px;margin: 0 0 0 5px;}
+
+/* --- index ---*/
+.pmenu{
+	float: right;
+	display: block;
+}
+.pdes {
+	clear:both;
+	width:100%;
+	height:auto;
+	display: block;
+	word-wrap: break-word;
+}
+.pclist{
+	clear:both;
+	display: block;
+	padding: 10px 0 10px 0;
+}
+.pclist-t{
+	display: block;
+	float: right;
+	margin: -9px 0 0 0;
+}
+
+.pcslist-t{
+	display: block;
+	float: right;
+	margin: 0 0 0 2px;
+}
+
+.on-pcslist-t{
+	display: block;
+	float: right;
+	margin: 2px 0 0 0;
+}
+
+/* --- controlpanel --- */
+
+#controlpanel{
+	width:100%;
+	height: 100%;
+	background-color: #fff;
+}
+
+#list-user{
+	clear:both;
+	float:left;
+	bottom:0;
+	height:100%;
+	width:200px;
+	overflow: auto;
+}
+
+#list-user .accord{
+	margin:4px 5px 5px 5px;
+}
+
+#list-user .listuser{
+	padding:5px;
+}
+
+#list-user .slistuser{
+	margin-left: -15px;
+	width: 164px;
+	height: 200px;
+}
+
+#list-user .dlistuser{
+	overflow: hidden;
+}
+
+#sprofile-user {
+	background-color: #fff;
+	position: absolute;
+	width: auto;
+	height: 150px;
+	left: 205px;
+	top: 5px;
+	padding: 12px 5px 0px 5px;
+	-webkit-border-radius: 3px;
+	-webkit-box-shadow: 0px 0px 20px 0.8px black;
+	right: 5px;
+}
+
+#sprofile-user .centered{
+	clear: both;
+	width:280px;
+	margin:0 auto 0 auto;
+}
+
+#sprofile-user .bcentered{
+	width: 205px;
+	margin: 0 auto 0 auto;
+	clear: both;
+}
+
+#sprofile-user dl {clear: both;}
+#sprofile-user dt {float: left;text-align: right;width: 80px;line-height: 25px;margin: 0 0 0 0;}
+#sprofile-user dd {float: left;width: 130px;line-height: 25px;margin: 0 0 0 5px;}
+
+/* --- collaborator --- */
+
+#colist{
+	background-color: #fff;
+	position: absolute;
+	width: auto;
+	height: 240px;
+	left: 5px;
+	top: 5px;
+	padding: 12px;
+	-webkit-border-radius: 3px;
+	-webkit-box-shadow: 0px 0px 20px 0.8px black;
+	right: 5px;
+}
+
+#colist .llist{
+	float: left;
+	width: 200px;
+	height: 200px;
+	margin: 0 0 0 12px;
+}
+
+#colist .alist{
+	width: 200px;
+	height: 200px;
+}
+
+#colist .clist{
+	width: 500px;
+	margin: 0 auto 0 auto;
+}
+
+#colist .blist{
+	clear:both;
+	width: 100px;
+	margin: 0 auto 0 auto;
+	padding: 10px 0 0 0;
+}
+
+/* --- observe --- */
+
+#ob-area{
+	width:100%;
+	height:100%;
+}
+
+.c-1{
+	width:100%;
+	height:100%;
+}
+
+.c-2{
+	width:50%;
+	height:50%;
+}
+
+.fappend-c{
+	clear:both;
+	float:left;
+}
+
+.append-c{
+	float:left;
+}
+
+/*
 dl {clear: both;}
 dt {float: left;text-align: right;width: 130px;line-height: 25px;margin: 0 0 0 0;}
 dd {float: left;width: 130px;line-height: 25px;margin: 0 0 0 5px;}
@@ -54,7 +556,8 @@ dd {float: left;width: 130px;line-height: 25px;margin: 0 0 0 5px;}
 .menu-project-camera{margin-top:-7px;}
 .list-camera-project{height:35px;}
 
-.storage-set-shadow-style{width: 332px; height: 152px; position: absolute; left: 50%; top: 50%; margin-left: -166px; margin-top: -76px;}
+.storage-set-background-style{width: 100%; height: 100%; margin: 10px;background-color: white;}
 .storage-set-content-style{position: absolute; width: 310px; height: 130px; left: 50%; top: 50%; margin-left: -155px; margin-top: -65px; padding: 7px;}
 .storage-set-content-inner-style{background: none; border: 0;}
 .storage-button{width:80px;}
+*/

@@ -8,6 +8,7 @@ from hawkeye.forms import account_form
 from hawkeye.forms import project_form
 
 import logging
+import hawkeye.window
 logger = logging.getLogger(__name__)
 
 def login(request):
@@ -30,7 +31,7 @@ def login(request):
   
     try:
         data = request.nokkhum_client.account.authenticate(email, password)
-        #print ('data:', data)
+        print ('data:', data)
         if 'access' not in data:
             raise 'error'
         
@@ -79,8 +80,9 @@ def logout(request):
 def profile(request):
     form = project_form.ProjectForm(request.matchdict)
     return {
-            'user' : request.session['user'],
+            'user' : request.session['user']
             }
+    
 def add(request):
     form = project_form.AddProjectForm(request.matchdict)
     if len(request.matchdict) > 0 and form.validate():
@@ -140,3 +142,28 @@ def edit(request):
                     )
     
     return request.route_path('/home')
+
+def controlpanel(request):
+    roles_name = ""
+    return dict(
+                roles_name = roles_name
+                )
+    
+def observe_project(request):
+    project_id = int(request.matchdict.get('id'))
+#    data = request.nokkhum_client.camera.list_camera(project_id)
+#    print("data -->",data['project']['cameras'])
+    return dict(
+#                data = data['project']['cameras']
+                 project_id = project_id
+                )
+def collaborator_project(request):
+    user_id = ""
+    data = request.nokkhum_client.account.list_project()
+    print('data -->',data)
+#    data = request.nokkhum_client.camera.list_camera(project_id)
+#    print("data -->",data['project']['cameras'])
+    return dict(
+#                data = data['project']['cameras']
+                 data = data['projects']
+                )

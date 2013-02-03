@@ -1,6 +1,6 @@
 var stage = new Kinetic.Stage({
 	container : 'container',
-	width : window.innerWidth,
+	width : window.innerWidth ,
 	height : window.innerHeight
 });
 
@@ -8,7 +8,7 @@ var stageLayer = new Kinetic.Layer();
 var stageBackground = new Kinetic.Rect({
 	x : 0,
 	y : 40,
-	width : window.innerWidth,
+	width : window.innerWidth ,
 	height : window.innerHeight - 40,
 	fill : '#ffffff'
 });
@@ -22,50 +22,54 @@ var nodes = new Array();
 
 if (oldoption != undefined) {
 	function generate(tmpjson, tmpnode) {
-		if(tmpjson.processors != undefined){
-			for (i in tmpjson.processors) {
-				switch (tmpjson.processors[i].name) {
-				case "Motion Detector":
-					var tmp = new Processor("Motion Detector");
-					nodes.push(tmp);
-					tmpnode.next.push(tmp);
-					tmp.pre.push(tmpnode);
-					tmpnode.addLine(tmp);
-					generate(tmpjson.processors[i], tmp);
-					tmpnode.json = JSON.parse(JSON.stringify(tmpjson));
-					tmpnode.json.processors.splice(0,tmpnode.json.processors.length);
-					break;
-				case "Face Detector":
-					var tmp = new Processor("Face Detector");
-					nodes.push(tmp);
-					tmpnode.next.push(tmp);
-					tmp.pre.push(tmpnode);
-					tmpnode.addLine(tmp);
-					generate(tmpjson.processors[i], tmp);
-					tmpnode.json = JSON.parse(JSON.stringify(tmpjson));
-					tmpnode.json.processors.splice(0,tmpnode.json.processors.length);
-					break;
-				case "Video Recorder":
-					var tmp = new Processor("Video Recorder");
-					nodes.push(tmp);
-					tmpnode.next.push(tmp);
-					tmp.pre.push(tmpnode);
-					tmpnode.addLine(tmp);
-					generate(tmpjson.processors[i], tmp);
-					tmpnode.json = JSON.parse(JSON.stringify(tmpjson));
-					break;
-				case "Image Recorder":
-					var tmp = new Processor("Image Recorder");
-					nodes.push(tmp);
-					tmpnode.next.push(tmp);
-					tmp.pre.push(tmpnode);
-					tmpnode.addLine(tmp);
-					generate(tmpjson.processors[i], tmp);
-					tmpnode.json = JSON.parse(JSON.stringify(tmpjson));
-					break;
+		   if(tmpjson.processors != undefined){
+				for (i in tmpjson.processors) {
+					switch (tmpjson.processors[i].name) {
+					case "Motion Detector":
+						var tmp = new Processor("Motion Detector");
+						nodes.push(tmp);
+						tmpnode.next.push(tmp);
+						tmp.pre.push(tmpnode);
+						tmpnode.addLine(tmp);
+						generate(tmpjson.processors[i], tmp);
+						tmp.json = JSON.parse(JSON.stringify(tmpjson.processors[i]));
+						break;
+					case "Face Detector":
+						var tmp = new Processor("Face Detector");
+						nodes.push(tmp);
+						tmpnode.next.push(tmp);
+						tmp.pre.push(tmpnode);
+						tmpnode.addLine(tmp);
+						generate(tmpjson.processors[i], tmp);
+						tmp.json = JSON.parse(JSON.stringify(tmpjson));
+						break;
+					case "Video Recorder":
+						var tmp = new Processor("Video Recorder");
+						nodes.push(tmp);
+						tmpnode.next.push(tmp);
+						tmp.pre.push(tmpnode);
+						tmpnode.addLine(tmp);
+						tmp.json = JSON.parse(JSON.stringify(tmpjson.processors[i]));
+						break;
+					case "Image Recorder":
+						var tmp = new Processor("Image Recorder");
+						nodes.push(tmp);
+						tmpnode.next.push(tmp);
+						tmp.pre.push(tmpnode);
+						tmpnode.addLine(tmp);
+						tmp.json = JSON.parse(JSON.stringify(tmpjson.processors[i]));
+						break;
+					case "Multimedia Recorder":
+						var tmp = new Processor("Multimedia Recorder");
+						nodes.push(tmp);
+						tmpnode.next.push(tmp);
+						tmp.pre.push(tmpnode);
+						tmpnode.addLine(tmp);
+						tmp.json = JSON.parse(JSON.stringify(tmpjson.processors[i]));
+						break;
+					}
 				}
-			}
-		}
+		   }
 	}
 	
 	function generatepoint (nodes,level,offsetStart){
@@ -74,7 +78,7 @@ if (oldoption != undefined) {
 			offsetEnd = generatepoint(nodes.next[i],level+1,offsetEnd);
 		}
 		var offset;
-		if(nodes.next.length == 0){
+		if(nodes.next != undefined){
 			offset = offsetEnd;
 			offsetEnd += 140;
 		}else{
@@ -86,17 +90,19 @@ if (oldoption != undefined) {
 		nodes.updateline();
 		return offsetEnd;
 	}
-
+	
 //	camera.shape.setX(window.innerWidth / 2 - camera.shape.getWidth() / 2);
 //	camera.layer.draw();
+	//oldoption.camera.processors = JSON.parse(oldoption.camera.processors);
+	
 	camera.json = JSON.parse(JSON.stringify(oldoption));
 	camera.json.camera.processors.splice(0,camera.json.camera.processors.length);
 	generate(oldoption.camera, camera);
-	generatepoint(camera, 0, 10)
+	generatepoint(camera, 0, 100);
 }else{
 	camera.json.camera.project.id = projectid;
 	camera.json.camera.user.id = userid;
-	camera.json.camera.fps = $('#fps').val();
+	camera.json.camera.fps = parseInt($('#fps').val());
 	camera.json.camera.model.name = $('#model').val();
 	camera.json.camera.model.manufactory.name= $('#menufactory').val();
 	camera.json.camera.image_size = $('#imagesize').val();
@@ -153,14 +159,14 @@ stage.on("mouseup", function() {
 });
 
 window.onresize = function() {
-	stage.setWidth(window.innerWidth);
-	stage.setHeight(window.innerHeight);
-	stageBackground.setWidth(window.innerWidth);
-	stageBackground.setHeight(window.innerHeight - 40);
-	menu.proBackground.setWidth(window.innerWidth);
-	menu.menuBackground.setWidth(window.innerWidth);
-	menu.save.setX(window.innerWidth - 260);
-	menu.cancel.setX(window.innerWidth - 130);
+	stage.setWidth(window.innerWidth );
+	stage.setHeight(window.innerHeight );
+	stageBackground.setWidth(window.innerWidth );
+	stageBackground.setHeight(window.innerHeight -40);
+	menu.proBackground.setWidth(window.innerWidth );
+	menu.menuBackground.setWidth(window.innerWidth );
+	menu.save.setX(window.innerWidth -260);
+	menu.cancel.setX(window.innerWidth -130);
 	stageLayer.draw();
 	menu.layer.draw();
 };
@@ -170,24 +176,24 @@ function Camera() {
 	this.next = new Array();
 	this.nextline = new Array();
 	this.json = {
-		"camera" : {
-			"username": "",
-			"status": "",
-			"create_date": "",
-			"name": "",
-			"storage_periods": 0,
-			"url": "",
-			"fps": 0,
-			"image_size": "",
+		'camera' : {
+			'username': '',
+			'status': '',
+			'create_date': '',
+			'name': '',
+			'storage_periods': 0,
+			'url': '',
+			'fps': 0,
+			'image_size': '',
 			'model': {'name': '', 
 				      'manufactory': {'name': '', 
-				    	              'id': ''
+				    	              'id': 0
 				    	              },
-				      'id': ''},
-			"password": "",
-			'project' : {'id':''}, 
-			'user':{'id':''},
-			"id": "",
+				      'id': 0},
+			"password": '',
+			'project' : {'id': 0}, 
+			'user':{'id': 0},
+			"id": 0,
 			"processors" : []
 		    }
 		};
@@ -197,7 +203,7 @@ function Camera() {
 		stroke : '#555',
 		strokeWidth : 2,
 		fill : '#ddd',
-		text : 'Video',
+		text : 'Camera',
 		fontFamily : 'Tahoma, Geneva, sans-serif',
 		fontSize : 10,
 		textFill : '#555',
@@ -249,6 +255,7 @@ function Camera() {
 		tmpthis.updateline();
 	});
 	tmpthis.shape.on('dblclick',function() {
+
 						if (sTatus == undefined) {
 							var name = $("#name"), url = $("#url"),manufactory=$("#menufactory"),recordstore=$("#recordstore"),imagesize = $("#imagesize"), fps = $("#fps"), model = $("#model"), username = $("#username"), password = $("#password"), 
 							allFields = $([]).add(name).add(url).add(fps).add(manufactory).add(recordstore).add(imagesize).add(model).add(username).add(password);
@@ -274,14 +281,13 @@ function Camera() {
 
 														tmpthis.json.camera.name = name.val();
 														tmpthis.json.camera.url = url.val();
-														tmpthis.json.camera.fps = fps.val();
+														tmpthis.json.camera.fps = parseInt(fps.val());
 														tmpthis.json.camera.model.name = model.val();
 														tmpthis.json.camera.model.manufactory.name= manufactory.val();
-														tmpthis.json.camera.storage_periods=recordstore.val();
+														tmpthis.json.camera.storage_periods = parseInt(recordstore.val());
 														tmpthis.json.camera.image_size = imagesize.val();
 														tmpthis.json.camera.username = username.val();
 														tmpthis.json.camera.password = password.val();
-														
 														$(this).dialog("close");
 
 													},
@@ -374,10 +380,10 @@ function Processor(name) {
 		this.nextline = new Array();
 		this.json = {
 			"name" : "Motion Detector",
-			"interval" : 0,
-			"resolution" : 0,
+			"interval" : 10,
+			"sensitive" : 0.0,
 			"processors" : [],
-			"drop_motion" : 0
+			"drop_motion" : 10
 		};
 		this.shape = new Kinetic.Text({
 			x : 10,
@@ -469,7 +475,8 @@ function Processor(name) {
 		this.json = {
 			"name" : "Image Recorder",
 			"width" : 0,
-			"height" : 0
+			"height" : 0,
+			"interval" : 1
 		};
 		this.shape = new Kinetic.Text({
 			x : 430,
@@ -482,6 +489,39 @@ function Processor(name) {
 			fontSize : 10,
 			textFill : '#555',
 			width : 130,
+			padding : 14,
+			align : 'center',
+			shadow : {
+				color : 'black',
+				blur : 10,
+				offset : [ 5, 5 ],
+				opacity : 0.2
+			},
+			cornerRadius : 10,
+			draggable : true
+		});
+		break;
+	case "Multimedia Recorder":
+		this.json = {
+			"name" : "Multimedia Recorder",
+			"width" : 0,
+			"height" : 0,
+			"url" : '',
+			"maximum_wait_motion" : -1,
+			"fps" : 0,
+			"record_motion" : false
+		};
+		this.shape = new Kinetic.Text({
+			x : 570,
+			y : 50,
+			stroke : '#555',
+			strokeWidth : 2,
+			fill : '#ddd',
+			text : 'Multimedia Recorder',
+			fontFamily : 'Tahoma, Geneva, sans-serif',
+			fontSize : 10,
+			textFill : '#555',
+			width : 180,
 			padding : 14,
 			align : 'center',
 			shadow : {
@@ -629,13 +669,13 @@ function Processor(name) {
 					function() {
 						if (sTatus == undefined) {
 							if (tmpthis.json.name == "Motion Detector") {
-								var interval = $("#interval"), resolution = $("#resolution"), dropmotion = $("#dropmotion"), 
-								allFields = $([]).add(interval).add(resolution).add(dropmotion);
+								var interval = $("#mminterval"), sensitive = $("#mmsensitive"), dropmotion = $("#mmdropmotion"), 
+								allFields = $([]).add(interval).add(sensitive).add(dropmotion);
 
 								interval.val(tmpthis.json.interval);
-								resolution.val(tmpthis.json.resolution);
+								sensitive.val(tmpthis.json.sensitive);
 								dropmotion.val(tmpthis.json.drop_motion);
-
+								
 								$("#Motion-Detector-form").dialog({
 													autoOpen : false,
 													height : 300,
@@ -644,9 +684,9 @@ function Processor(name) {
 													buttons : {
 														"Save" : function() {
 															allFields.removeClass("ui-state-error");
-															tmpthis.json.interval = interval.val();
-															tmpthis.json.resolution = resolution.val();
-															tmpthis.json.drop_motion = dropmotion.val();
+															tmpthis.json.interval = parseInt(interval.val());
+															tmpthis.json.sensitive = parseFloat(sensitive.val());
+															tmpthis.json.drop_motion = parseInt(dropmotion.val());
 															$(this).dialog("close");
 														},
 														Cancel : function() {
@@ -659,7 +699,7 @@ function Processor(name) {
 												});
 								$("#Motion-Detector-form").dialog("open");
 							} else if (tmpthis.json.name == "Face Detector") {
-								var interval = $("#interval"), allFields = $([]).add(interval);
+								var interval = $("#fdinterval"), allFields = $([]).add(interval);
 
 								interval.val(tmpthis.json.interval);
 
@@ -672,7 +712,7 @@ function Processor(name) {
 														"Save" : function() {
 															allFields.removeClass("ui-state-error");
 
-															tmpthis.json.interval = interval.val();
+															tmpthis.json.interval = parseInt(interval.val());
 															$(this).dialog("close");
 														},
 														Cancel : function() {
@@ -685,9 +725,11 @@ function Processor(name) {
 												});
 								$("#Face-Detector-form").dialog("open");
 							} else if (tmpthis.json.name == "Video Recorder") {
-								var width = $("#width"), height = $("#height"), maximumwaitmotion = $("#maximumwaitmotion"), fps = $("#fps"), recordmotion = $("#recordmotion"), 
+								var width = $("#vrwidth"), height = $("#vrheight"), maximumwaitmotion = $("#vrmaximumwaitmotion"), fps = $("#vrfps"), recordmotion = $("#vrrecordmotion"), 
 								allFields = $([]).add(width).add(height).add(maximumwaitmotion).add(fps).add(recordmotion);
-
+								
+						      
+						        
 								width.val(tmpthis.json.width);
 								height.val(tmpthis.json.height);
 								maximumwaitmotion.val(tmpthis.json.maximum_wait_motion);
@@ -703,11 +745,11 @@ function Processor(name) {
 														"Save" : function() {
 															allFields.removeClass("ui-state-error");
 
-															tmpthis.json.width = width.val();
-															tmpthis.json.height = height.val();
-															tmpthis.json.maximum_wait_motion = maximumwaitmotion.val();
-															tmpthis.json.fps = fps.val();
-															tmpthis.json.record_motion = recordmotion.val();
+															tmpthis.json.width = parseInt(width.val());
+															tmpthis.json.height = parseInt(height.val());
+															tmpthis.json.maximum_wait_motion = parseInt(maximumwaitmotion.val());
+															tmpthis.json.fps = parseInt(fps.val());
+															tmpthis.json.record_motion = recordmotion.val() == "true";
 															$(this).dialog("close");
 														},
 														Cancel : function() {
@@ -720,12 +762,10 @@ function Processor(name) {
 												});
 								$("#Video-Recorder-form").dialog("open");
 							} else if (tmpthis.json.name == "Image Recorder") {
-								var width = $("#width"), height = $("#height"), 
+								var width = $("#irwidth"), height = $("#irheight"), 
 								allFields = $([]).add(width).add(height);
-
 								width.val(tmpthis.json.width);
 								height.val(tmpthis.json.height);
-
 								$("#Image-Recorder-form").dialog({
 													autoOpen : false,
 													height : 300,
@@ -734,9 +774,8 @@ function Processor(name) {
 													buttons : {
 														"Save" : function() {
 															allFields.removeClass("ui-state-error");
-
-															tmpthis.json.width = width.val();
-															tmpthis.json.height = height.val();
+															tmpthis.json.width = parseInt(width.val());
+															tmpthis.json.height = parseInt(height.val());
 															$(this).dialog("close");
 														},
 														Cancel : function() {
@@ -748,6 +787,48 @@ function Processor(name) {
 													}
 												});
 								$("#Image-Recorder-form").dialog("open");
+							} else if (tmpthis.json.name == "Multimedia Recorder") {
+								var width = $("#mwidth"),url=$("#murl"), height = $("#mheight"), maximumwaitmotion = $("#mmaximumwaitmotion"), fps = $("#mfps"), recordmotion = $("#mrecordmotion"), 
+								allFields = $([]).add(width).add(height).add(url).add(maximumwaitmotion).add(fps).add(recordmotion);
+								
+								width.val(tmpthis.json.width);
+								height.val(tmpthis.json.height);
+								url.val(tmpthis.json.url);
+								maximumwaitmotion.val(tmpthis.json.maximum_wait_motion);
+								fps.val(tmpthis.json.fps);
+								recordmotion.val(tmpthis.json.record_motion);
+
+								$("#Mutimedia-form").dialog({
+													autoOpen : false,
+													height : 300,
+													width : 400,
+													modal : true,
+													buttons : {
+														"Save" : function() {
+															allFields.removeClass("ui-state-error");
+
+															tmpthis.json.width = parseInt(width.val());
+															tmpthis.json.height = parseInt(height.val());
+															tmpthis.json.maximum_wait_motion = parseInt(maximumwaitmotion.val());
+															tmpthis.json.fps = parseInt(fps.val());
+															tmpthis.json.record_motion = recordmotion.val() == "true";
+															var turl = url.val();
+															if(turl != tmpthis.json.url){
+																turl = turl.substr(0,turl.lastIndexOf('/'));
+							            				        turl = turl.substr(0,turl.lastIndexOf('/'));
+							            				        tmpthis.json.url = turl;
+															}
+															$(this).dialog("close");
+														},
+														Cancel : function() {
+															$(this).dialog("close");
+														}
+													},
+													close : function() {
+														allFields.val("").removeClass("ui-state-error");
+													}
+												});
+								$("#Mutimedia-form").dialog("open");
 							}
 						}
 					});
@@ -894,6 +975,29 @@ function Menu() {
 		visible : false
 	});
 	this.dataSubInPro.push(this.imageRecorder);
+	this.multimediaRecorder = new Kinetic.Text({
+		x : 570,
+		y : 50,
+		stroke : '#555',
+		strokeWidth : 2,
+		fill : '#ddd',
+		text : 'Multimedia Recorder',
+		fontFamily : 'Tahoma, Geneva, sans-serif',
+		fontSize : 10,
+		textFill : '#555',
+		width : 180,
+		padding : 14,
+		align : 'center',
+		shadow : {
+			color : 'black',
+			blur : 10,
+			offset : [ 5, 5 ],
+			opacity : 0.2
+		},
+		cornerRadius : 10,
+		visible : false
+	});
+	this.dataSubInPro.push(this.multimediaRecorder);
 	// --- end subitem ---
 	// --- end pro item ---
 
@@ -1044,6 +1148,11 @@ function Menu() {
 	});
 	tmp.imageRecorder.on('click', function() {
 		nodes.push(new Processor('Image Recorder'));
+		sTatus = undefined;
+		proReset();
+	});
+	tmp.multimediaRecorder.on('click', function() {
+		nodes.push(new Processor('Multimedia Recorder'));
 		sTatus = undefined;
 		proReset();
 	});

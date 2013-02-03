@@ -1,52 +1,51 @@
 <%inherit file="/base/base.mako"/>
+<%! import json %>
+<%block name="style">
 <link media="screen" href="${base_url}/public/theme/style/canvas.css" rel="stylesheet" type="text/css" />
-<script>
-	var oldoption = ${cameras};
+<style>
+#wrapper {
+	position: absolute;
+    overflow: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+	font-family: arial, helvetica, sans-serif;
+	/* border: 5px solid red; */
+}
+</style>
+</%block>
+<%block name='script'>
+<script type="text/javascript">
+	var oldoption = ${json.dumps(cameras)};
 	var projectid = ${project['id']};
 	var userid = ${project['user']['id']};
-  $(function(){
-	  $.getJSON("${url_api + '/manufactories'}", function(menuGet){
-		  var menuFact = document.getElementById("menufactory");
-		  menuFact.name = menuGet.manufactories[0].id;
-		  for(i in menuGet.manufactories){
-			  var option = document.createElement("option");
-			  option.text = menuGet.manufactories[i].name;
-			  option.value = menuGet.manufactories[i].name;
-			  menuFact.add(option,menuFact.options[null]);
-		  }
+	 $(function(){
 		  $.ajax({
-	            type: 'GET',
-	            url: "${url_api + '/camera_models'}"+menuGet.manufactories[0].id,
-	            success: function(modelGet) {
-	            	 var modelist = document.getElementById("model");
-	            	 modelist.name = modelGet.camera_models[0].id;
-					  for(i in modelGet.camera_models){
-						  var option = document.createElement("option");
-						  option.text = modelGet.camera_models[i].name;
-						  option.value = modelGet.camera_models[i].name;
-						  modelist.add(option,modelist.options[null]);
-					  }
-	            }
-	         });
-		  
-		  $("#menufactory").change(function () {
-			  var str = "";
-			  var id = "";
-			  $("#menufactory option:selected").each(function () {
-		            str = $(this).text();
-		      });
+			  type: 'GET',
+	          url: "${request.config.settings['nokkhum.api.url'] + '/manufactories'}", 
+	          datatype: 'json',
+	          error: function(resp){
+	        	  console.debug("header-> : "+JSON.stringify(resp.getAllResponseHeaders()));
+	          },
+	          success: function(menuGet){
+	        	  console.debug("header success: ");
+			  var menuFact = document.getElementById("menufactory");
+			  menuFact.name = menuGet.manufactories[0].id;
 			  for(i in menuGet.manufactories){
-			  	if(str == menuGet.manufactories[i].name){
-			  		id = menuGet.manufactories[i].id;
-			  		break;
-			  	}
+				  var option = document.createElement("option");
+				  option.text = menuGet.manufactories[i].name;
+				  option.value = menuGet.manufactories[i].name;
+				  menuFact.add(option,menuFact.options[null]);
 			  }
-			  menuFact.name = id;
+			  
 			  $.ajax({
 		            type: 'GET',
-		            url: "${url_api + '/camera_models'}"+id,
+		            datatype: 'json',
+		            url: "${request.config.settings['nokkhum.api.url'] + '/camera_models'}"+menuGet.manufactories[0].id,
 		            success: function(modelGet) {
 		            	 var modelist = document.getElementById("model");
+		            	 modelist.name = modelGet.camera_models[0].id;
 						  for(i in modelGet.camera_models){
 							  var option = document.createElement("option");
 							  option.text = modelGet.camera_models[i].name;
@@ -55,30 +54,59 @@
 						  }
 		            }
 		         });
-			  $("#model").change(function () {
-				  var tmpstr = "";
-				  $("#model option:selected").each(function () {
-			            tmpstr = $(this).text();
+			  
+			  $("#menufactory").change(function () {
+				  var str = "";
+				  var id = "";
+				  $("#menufactory option:selected").each(function () {
+			            str = $(this).text();
 			      });
+				  for(i in menuGet.manufactories){
+				  	if(str == menuGet.manufactories[i].name){
+				  		id = menuGet.manufactories[i].id;
+				  		break;
+				  	}
+				  }
+				  menuFact.name = id;
 				  $.ajax({
 			            type: 'GET',
-			            url: "${url_api + '/camera_models'}"+id,
+			            url: "${request.config.settings['nokkhum.api.url'] + '/camera_models'}"+id,
+			            datatype: 'json',
 			            success: function(modelGet) {
 			            	 var modelist = document.getElementById("model");
 							  for(i in modelGet.camera_models){
-								  if(tmpstr == modelGet.camera_models[i].name){
-									  modelist.name = modelGet.camera_models[i].id;
-									  break;
-								  }
+								  var option = document.createElement("option");
+								  option.text = modelGet.camera_models[i].name;
+								  option.value = modelGet.camera_models[i].name;
+								  modelist.add(option,modelist.options[null]);
 							  }
 			            }
-			      });
+			         });
+				  $("#model").change(function () {
+					  var tmpstr = "";
+					  $("#model option:selected").each(function () {
+				            tmpstr = $(this).text();
+				      });
+					  $.ajax({
+				            type: 'GET',
+				            url: "${request.config.settings['nokkhum.api.url'] + '/camera_models'}"+id,
+				            success: function(modelGet) {
+				            	 var modelist = document.getElementById("model");
+								  for(i in modelGet.camera_models){
+									  if(tmpstr == modelGet.camera_models[i].name){
+										  modelist.name = modelGet.camera_models[i].id;
+										  break;
+									  }
+								  }
+				            }
+				      });
+				  });
 			  });
+		  }
 		  });
 	  });
-  });
-
 </script>
+</%block>
 <div style="display: none">
 	<form>
 		<input type="hidden" id="project_id" name="project_id" value="${project['id']}"/>
@@ -129,9 +157,9 @@
 	<div id="Motion-Detector-form" title="Edit Motion Detector">
 		<form>
 			<fieldset>
-				<label for="interval">Interval</label> <input type="text" name="interval" id="interval" class="text ui-widget-content ui-corner-all" /> 
-				<label for="resolution">Resolution</label> <input type="text" name="resolution" id="resolution" class="text ui-widget-content ui-corner-all" /> 
-				<label for="dropmotion">Drop motion</label> <input type="text" name="dropmotion" id="dropmotion" class="text ui-widget-content ui-corner-all" />
+				<label for="mminterval">Interval</label> <input type="text" name="mminterval" id="mminterval" class="text ui-widget-content ui-corner-all" /> 
+				<label for="mmsensitive">Sensitive</label> <input type="text" name="mmsensitive" id="mmsensitive" class="text ui-widget-content ui-corner-all" /> 
+				<label for="mmdropmotion">Drop motion</label> <input type="text" name="mmdropmotion" id="mmdropmotion" class="text ui-widget-content ui-corner-all" />
 			</fieldset>
 		</form>
 	</div>
@@ -139,7 +167,7 @@
 	<div id="Face-Detector-form" title="Edit Face Detector">
 		<form>
 			<fieldset>
-				<label for="interval">Interval</label> <input type="text" name="interval" id="interval" class="text ui-widget-content ui-corner-all" />
+				<label for="fdinterval">Interval</label> <input type="text" name="fdinterval" id="fdinterval" class="text ui-widget-content ui-corner-all" />
 			</fieldset>
 		</form>
 	</div>
@@ -147,11 +175,11 @@
 	<div id="Video-Recorder-form" title="Edit Video Recorder">
 		<form>
 			<fieldset>
-				<label for="height">Height</label> <input type="text" name="height" id="height" class="text ui-widget-content ui-corner-all" /> 
-				<label for="width">Width</label> <input type="text" name="width" id="width" class="text ui-widget-content ui-corner-all" /> 
-				<label for="maximumwaitmotion">Maximum wait motion</label> <input type="text" name="maximumwaitmotion" id="maximumwaitmotion" class="text ui-widget-content ui-corner-all" /> 
-				<label for="fps">Fps</label> <input type="text" name="fps" id="fps"class="text ui-widget-content ui-corner-all" /> 
-				<label for="recordmotion">Record motion</label> <input type="text" name="recordmotion" id="recordmotion" class="text ui-widget-content ui-corner-all" />
+				<label for="vrheight">Height</label> <input type="text" name="vrheight" id="vrheight" class="text ui-widget-content ui-corner-all" /> 
+				<label for="vrwidth">Width</label> <input type="text" name="vrwidth" id="vrwidth" class="text ui-widget-content ui-corner-all" /> 
+				<label for="vrmaximumwaitmotion">Maximum wait motion</label> <input type="text" name="vrmaximumwaitmotion" id="vrmaximumwaitmotion" class="text ui-widget-content ui-corner-all" /> 
+				<label for="vrfps">Fps</label> <input type="text" name="vrfps" id="vrfps"class="text ui-widget-content ui-corner-all" /> 
+				<label for="vrrecordmotion">Record motion</label> <input type="text" name="vrrecordmotion" id="vrrecordmotion" class="text ui-widget-content ui-corner-all" />
 			</fieldset>
 		</form>
 	</div>
@@ -159,11 +187,25 @@
 	<div id="Image-Recorder-form" title="Edit Image Recorder">
 		<form>
 			<fieldset>
-				<label for="height">Height</label> <input type="text" name="height" id="height" class="text ui-widget-content ui-corner-all" /> 
-				<label for="width">Width</label> <input type="text" name="width" id="width" class="text ui-widget-content ui-corner-all" />
+				<label for="irheight">Height</label> <input type="text" name="irheight" id="irheight" class="text ui-widget-content ui-corner-all" /> 
+				<label for="irwidth">Width</label> <input type="text" name="irwidth" id="irwidth" class="text ui-widget-content ui-corner-all" />
 			</fieldset>
 		</form>
 	</div>
+	
+	<div id="Mutimedia-form" title="Edit Image Recorder">
+		<form>
+			<fieldset>
+				<label for="mheight">Height</label> <input type="text" name="mheight" id="mheight" class="text ui-widget-content ui-corner-all" /> 
+				<label for="mwidth">Width</label> <input type="text" name="mwidth" id="mwidth" class="text ui-widget-content ui-corner-all" /> 
+				<label for="murl">Url</label> <input type="text" name="murl" id="murl" class="text ui-widget-content ui-corner-all" />
+				<label for="mmaximumwaitmotion">Maximum wait motion</label> <input type="text" name="mmaximumwaitmotion" id="mmaximumwaitmotion" class="text ui-widget-content ui-corner-all" /> 
+				<label for="mfps">Fps</label> <input type="text" name="mfps" id="mfps"class="text ui-widget-content ui-corner-all" /> 
+				<label for="mrecordmotion">Record motion</label> <input type="text" name="mrecordmotion" id="mrecordmotion" class="text ui-widget-content ui-corner-all" />
+			</fieldset>
+		</form>
+	</div>
+	
 </div>
 <div id="container"></div>
 <script type="text/javascript" src="${base_url}/public/js/kinetic-v4.2.0.min.js"></script>
