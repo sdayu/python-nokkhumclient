@@ -6,11 +6,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.rst')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
 
-requires = [
-    'mako',
-    'requests',
-    'wtforms'
-    ]
+requires = []
 
 setup(name='hawkeye',
       version='0.1',

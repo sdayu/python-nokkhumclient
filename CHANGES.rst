@@ -1,1 +1,1 @@
-This is Hawk Eye project for video surveillance system. First version show in NSC, Thailand.
+This is Nokkhum client library for nokkhum API.
