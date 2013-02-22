@@ -8,13 +8,12 @@ CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
 
 requires = []
 
-setup(name='hawkeye',
+setup(name='python-nokkhumclient',
       version='0.1',
       description='python nokkhum client',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[
         "Programming Language :: Python :: 3",
-        "Framework :: hawkeye",
         ],
       author='Attasuntorn Traisuwan  Yoschanin Sasiwat, Wongpiti Wangsanti, Thanathip Limna',
       author_email='',
