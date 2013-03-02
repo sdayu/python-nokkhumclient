@@ -10,6 +10,7 @@ from . import accounts
 from . import cameras
 from . import camera_operating
 from . import projects
+from . import storage
 
 
 class HTTPClient:
@@ -54,6 +55,7 @@ class HTTPClient:
                                     **kwargs)
         
         if response.status_code == 200:
+            print("response:", response.json())
             return response.json()
         return None
     
@@ -105,6 +107,7 @@ class Client:
         self.cameras = cameras.CameraManager(self)
         self.camera_operating = camera_operating.CameraOperatingManager(self)
         self.projects = projects.ProjectManager(self)
+        self.storage = storage.StorageManager(self)
         
         
     def authenticate(self):
