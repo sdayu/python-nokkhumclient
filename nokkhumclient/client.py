@@ -55,7 +55,7 @@ class HTTPClient:
                                     **kwargs)
         
         if response.status_code == 200:
-            print("response:", response.json())
+#            print("response:", response.json())
             return response.json()
         return None
     
