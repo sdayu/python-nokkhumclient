@@ -14,7 +14,7 @@ class CameraOperatingManager(base.Manager):
     resource_class = CameraOperating
     
     def get(self, camera_id):
-        return self._get('/cameras/%s/'%str(camera_id), "camera")
+        return self._get('/cameras/%s/operating'%str(camera_id), "camera_operating")
     
     def update(self):
         pass

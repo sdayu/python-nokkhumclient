@@ -17,6 +17,7 @@ class Manager:
         return [self.resource_class(self, res) for res in data]
     
     def _get(self, url, response_key):
+        #print("==>: ", url)
         response = self.api.http_client.get(url)
         return self.resource_class(self, response[response_key])
         
@@ -24,11 +25,12 @@ class Manager:
         response = self.api.http_client.delete(url)
     
     def _create(self, url, response_key, body=None):
-        response = self.api.http_client.get(url, body)
+        response = self.api.http_client.post(url, body=body)
         return self.resource_class(self, response[response_key])
         
     def _update(self, url, response_key, body=None):
-        response = self.api.http_client.get(url, body)
+        print("update:", url, response_key, body)
+        response = self.api.http_client.put(url, body=body)
         return self.resource_class(self, response[response_key])
         
         
@@ -38,28 +40,36 @@ class Resource:
         self._info = info
         self._loaded = loaded
         self._add_details(info)
-        
+    
+    def __set__(self, instance, value):
+        print
     
     def _add_details(self, info):
         for (k, v) in info.items():
             try:
+                if "_date" in k:
+                    import dateutil.parser
+                    try:
+                        v = dateutil.parser.parse(v)
+                    except Exception:
+                        pass
+                    
                 setattr(self, k, v)
             except AttributeError:
                 # In this case we already defined the attribute on the class
                 pass
             
     def __getattr__(self, k):
-
-        # print("get key: ", k)
+#        print("get key: ", k)
         if k not in self.__dict__:
             if not self.is_loaded():
+#                print("get key: ", k)
                 self.get()
                 return self.__getattr__(k)
 
             raise AttributeError(k)
         else:
             return self.__dict__[k]
-
 
     def get(self):
         # set_loaded() first ... so if we have to bail, we know we tried.

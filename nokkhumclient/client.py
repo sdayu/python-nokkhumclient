@@ -9,6 +9,8 @@ import json
 from . import accounts
 from . import cameras
 from . import camera_operating
+from . import camera_manufactory
+from . import camera_model
 from . import projects
 from . import storage
 
@@ -55,8 +57,11 @@ class HTTPClient:
                                     **kwargs)
         
         if response.status_code == 200:
-#            print("response:", response.json())
+            print("response:", response.json())
             return response.json()
+        else:
+            print("response.status_code:", response.status_code)
+            
         return None
     
     def _cs_request(self, url, method, **kwargs):
@@ -73,6 +78,7 @@ class HTTPClient:
         return self._cs_request(url, 'POST', **kwargs)
 
     def put(self, url, **kwargs):
+        print("PUT:", url)
         return self._cs_request(url, 'PUT', **kwargs)
 
     def delete(self, url, **kwargs):
@@ -108,6 +114,8 @@ class Client:
         self.camera_operating = camera_operating.CameraOperatingManager(self)
         self.projects = projects.ProjectManager(self)
         self.storage = storage.StorageManager(self)
+        self.camera_models = camera_model.CameraModelManager(self)
+        self.camera_manufactories = camera_manufactory.CameraManufactoryManager(self)
         
         
     def authenticate(self):
