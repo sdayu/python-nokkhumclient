@@ -13,6 +13,7 @@ from . import camera_manufactory
 from . import camera_model
 from . import projects
 from . import storage
+from . import image_processors
 
 
 class HTTPClient:
@@ -116,6 +117,7 @@ class Client:
         self.storage = storage.StorageManager(self)
         self.camera_models = camera_model.CameraModelManager(self)
         self.camera_manufactories = camera_manufactory.CameraManufactoryManager(self)
+        self.image_processors = image_processors.ImageProcessorManager(self)
         
         
     def authenticate(self):

@@ -17,8 +17,9 @@ class Manager:
         return [self.resource_class(self, res) for res in data]
     
     def _get(self, url, response_key):
-        #print("==>: ", url)
+        print("==>: ", url)
         response = self.api.http_client.get(url)
+        print("response: ", response)
         return self.resource_class(self, response[response_key])
         
     def _delete(self, url):
@@ -29,7 +30,7 @@ class Manager:
         return self.resource_class(self, response[response_key])
         
     def _update(self, url, response_key, body=None):
-        print("update:", url, response_key, body)
+#        print("update:", url, response_key, body)
         response = self.api.http_client.put(url, body=body)
         return self.resource_class(self, response[response_key])
         

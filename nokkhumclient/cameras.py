@@ -1,9 +1,14 @@
 from . import base
 from . import camera_manufactory
 from . import camera_model
+from . import image_processors
 import datetime
 
 class Camera(base.Resource):
+    
+    @property
+    def project(self):
+        return self.manager.api.projects.get(self._info['project']['id'])
 
     @property
     def operating(self):
@@ -27,6 +32,18 @@ class Camera(base.Resource):
         
         self._info['model']['id'] = model.id
         del self._info['model']['manufactory']
+        
+    @property
+    def image_processors(self):
+        return self._info['image_processors']
+                    
+    @image_processors.setter
+    def image_processors(self, image_processors):
+        if 'image_processors' in self._info:
+            self._info['image_processors'] = {}
+
+        self._info['image_processors'] = image_processors
+        
 
 class CameraManager(base.Manager):
     resource_class = Camera
@@ -57,6 +74,11 @@ class CameraManager(base.Manager):
                 if v != val:
                     if type(val) is datetime.datetime:
                         val = val.isoformat()
+                    elif isinstance(val, base.Resource):
+                        continue
+                    else:
+                        continue
+                    
                     camera._info[k] = val
                          
             except:
@@ -66,5 +88,7 @@ class CameraManager(base.Manager):
         body = dict(
                 camera=camera._info
                 )
+        
+#        print("\n\n\nupdate:", body)
 
         return self._update('/cameras/%d'%camera.id, "camera", body)
