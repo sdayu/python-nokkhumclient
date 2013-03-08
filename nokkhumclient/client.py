@@ -52,7 +52,8 @@ class HTTPClient:
         if 'body' in kwargs:
             kwargs['data'] = json.dumps(kwargs['body'])
             del kwargs['body']
-            
+        
+        print(method, url, "\nargs:", kwargs)
         response = requests.request(method, 
                                     url,
                                     **kwargs)

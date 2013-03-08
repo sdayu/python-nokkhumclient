@@ -4,46 +4,15 @@ Created on Feb 26, 2013
 @author: boatkrap
 '''
 
-class Manager:
-    
-    resource_class = None
-    def __init__(self, api):
-        self.api = api
-        
-    def _list(self, url, response_key, body=None):
-        response = self.api.http_client.get(url)
-        data = response[response_key]
-        
-        return [self.resource_class(self, res) for res in data]
-    
-    def _get(self, url, response_key):
-        print("==>: ", url)
-        response = self.api.http_client.get(url)
-        print("response: ", response)
-        return self.resource_class(self, response[response_key])
-        
-    def _delete(self, url):
-        response = self.api.http_client.delete(url)
-    
-    def _create(self, url, response_key, body=None):
-        response = self.api.http_client.post(url, body=body)
-        return self.resource_class(self, response[response_key])
-        
-    def _update(self, url, response_key, body=None):
-#        print("update:", url, response_key, body)
-        response = self.api.http_client.put(url, body=body)
-        return self.resource_class(self, response[response_key])
-        
-        
+import datetime
+
+
 class Resource:
     def __init__(self, manager, info, loaded=False):
         self.manager = manager
         self._info = info
         self._loaded = loaded
         self._add_details(info)
-    
-    def __set__(self, instance, value):
-        print
     
     def _add_details(self, info):
         for (k, v) in info.items():
@@ -88,3 +57,59 @@ class Resource:
 
     def set_loaded(self, val):
         self._loaded = val
+        
+        
+
+class Manager:
+    
+    resource_class = None
+    def __init__(self, api):
+        self.api = api
+        
+    def _list(self, url, response_key, body=None):
+        response = self.api.http_client.get(url)
+        data = response[response_key]
+        
+        return [self.resource_class(self, res) for res in data]
+    
+    def _get(self, url, response_key):
+        response = self.api.http_client.get(url)
+        return self.resource_class(self, response[response_key])
+        
+    def _delete(self, url):
+        response = self.api.http_client.delete(url)
+    
+    def _create(self, url, response_key, body=None):
+        response = self.api.http_client.post(url, body=body)
+        return self.resource_class(self, response[response_key])
+        
+    def _update(self, url, response_key, body=None):
+#        print("update:", url, response_key, body)
+        response = self.api.http_client.put(url, body=body)
+        return self.resource_class(self, response[response_key])
+        
+    
+    def body_builer(self, obj):
+        for (k,v) in obj._info.items():
+            
+            try:
+                val = getattr(obj, k)
+                if v != val:
+                    if type(val) is datetime.datetime:
+                        val = val.isoformat()
+                    elif isinstance(val, Resource):
+                        continue
+                    else:
+                        continue
+                    
+                    obj._info[k] = val
+                         
+            except:
+#                print("key error:", k)
+                pass
+            
+        return obj._info
+    
+
+        
+    

@@ -63,32 +63,16 @@ class CameraManager(base.Manager):
     def delete(self, camera):
         return self._delete('/cameras/%d'%camera.id)
     
-    def create(self):
-        pass
-    
-    def update(self, camera):
-        for (k,v) in camera._info.items():
-            
-            try:
-                val = getattr(camera, k)
-                if v != val:
-                    if type(val) is datetime.datetime:
-                        val = val.isoformat()
-                    elif isinstance(val, base.Resource):
-                        continue
-                    else:
-                        continue
-                    
-                    camera._info[k] = val
-                         
-            except:
-#                print("key error:", k)
-                pass
-                
+    def create(self, **kwargs):
+        
         body = dict(
-                camera=camera._info
+                    camera=kwargs
+                    )
+        return self._create('/cameras', "camera", body)
+    
+    def update(self, camera):        
+        body = dict(
+                camera=self.body_builer(camera)
                 )
         
-#        print("\n\n\nupdate:", body)
-
         return self._update('/cameras/%d'%camera.id, "camera", body)

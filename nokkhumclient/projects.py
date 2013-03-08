@@ -30,8 +30,11 @@ class ProjectManager(base.Manager):
     def delete(self, project):
         return self._delete('/projects/%d'%project.id)
     
-    def create(self):
-        pass
+    def create(self, **kwargs):
+        body = dict(
+                    project=kwargs
+                    )
+        self._create('/projects', 'project', body)
     
     def update(self):
         pass
