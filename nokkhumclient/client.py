@@ -14,6 +14,9 @@ from . import camera_model
 from . import projects
 from . import storage
 from . import image_processors
+from . import users
+from . import roles
+from . import admin
 
 
 class HTTPClient:
@@ -63,10 +66,15 @@ class HTTPClient:
             return response.json()
         else:
             print("response.status_code:", response.status_code)
+            if response.status_code == "403":
+                raise "403 Forbidden"
             
         return None
     
     def _cs_request(self, url, method, **kwargs):
+        if self.auth_token is None:
+            self.authenticate()
+            
         kwargs.setdefault('headers', {})['X-Auth-Token'] = self.auth_token
         
         return self.request(self.api_url + url, 
@@ -119,7 +127,11 @@ class Client:
         self.camera_models = camera_model.CameraModelManager(self)
         self.camera_manufactories = camera_manufactory.CameraManufactoryManager(self)
         self.image_processors = image_processors.ImageProcessorManager(self)
+        self.users = users.UserManager(self)
+        self.roles = roles.RoleManager(self)
         
+        # admin
+        self.admin = admin.AdministratorClient(self)
         
     def authenticate(self):
         return self.http_client.authenticate()

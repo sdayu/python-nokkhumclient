@@ -2,6 +2,7 @@ from . import base
 from . import camera_manufactory
 from . import camera_model
 from . import image_processors
+from . import users
 import datetime
 
 class Camera(base.Resource):
@@ -43,6 +44,10 @@ class Camera(base.Resource):
             self._info['image_processors'] = {}
 
         self._info['image_processors'] = image_processors
+        
+    @property
+    def owner(self):            
+        return users.User(self.manager.api.users, self._info['owner'])
         
 
 class CameraManager(base.Manager):

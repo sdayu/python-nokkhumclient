@@ -51,6 +51,8 @@ class Resource:
         if new:
             # print("new._info:", new._info)
             self._add_details(new._info)
+            for (k, v) in new._info.items():
+                self._info[k] = v
 
     def is_loaded(self):
         return self._loaded
