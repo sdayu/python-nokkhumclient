@@ -9,11 +9,12 @@ from .. import users
 from .. import cameras
 from . import compute_nodes
 
-class CommandLog(base.Resource):
-    @property
-    def owner(self):
-        return users.User(self.manager.api.users, self._info['owner'])
-
+class CameraRunningFail(base.Resource):
+    pass
+#    @property
+#    def owner(self):
+#        return users.User(self.manager.api.users, self._info['owner'])
+#
     @property
     def camera(self):
         return cameras.Camera(self.manager.api.cameras, self._info['camera'])
@@ -25,8 +26,8 @@ class CommandLog(base.Resource):
         return None
     
 
-class CommandLogManager(base.Manager):
-    resource_class = CommandLog
+class CameraRunningFailManager(base.Manager):
+    resource_class = CameraRunningFail
     
     def list(self):
-        return self._list('/admin/command_log', 'command_log')
+        return self._list('/admin/camera_running_fail', 'camera_running_fail')

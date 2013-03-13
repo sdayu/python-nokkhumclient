@@ -6,6 +6,7 @@ from . import cpu_information
 from . import memory_information
 from . import camera_operating
 from . import users
+from . import camera_running_fail
 
 
 class AdministratorClient:
@@ -20,3 +21,4 @@ class AdministratorClient:
         self.cpu_information = cpu_information.CPUInformationManager(self.client)
         self.memory_information = memory_information.MemoryInformationManager(self.client)
         self.users = users.UserManager(self.client)
+        self.camera_running_fail = camera_running_fail.CameraRunningFailManager(self.client)

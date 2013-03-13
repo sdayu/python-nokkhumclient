@@ -6,7 +6,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.rst')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
 
-requires = []
+requires = ['requests', 'python-dateutil']
 
 setup(name='python-nokkhumclient',
       version='0.1',
