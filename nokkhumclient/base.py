@@ -101,9 +101,7 @@ class Manager:
                         val = val.isoformat()
                     elif isinstance(val, Resource):
                         continue
-                    else:
-                        continue
-                    
+
                     obj._info[k] = val
                          
             except:
