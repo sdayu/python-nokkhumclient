@@ -18,7 +18,7 @@ class ProjectManager(base.Manager):
     resource_class = Project
     
     def list_user_projects(self, user_id):
-        return self._list('/users/%d/projects'%user_id, "projects")
+        return self._list('/users/%s/projects'%user_id, "projects")
     
     def list(self):
         return self._list('/projects', "projects")
@@ -28,7 +28,7 @@ class ProjectManager(base.Manager):
         return self._get('/projects/%s'%str(project_id), "project")
     
     def delete(self, project):
-        return self._delete('/projects/%d'%project.id)
+        return self._delete('/projects/%s'%project.id)
     
     def create(self, **kwargs):
         body = dict(

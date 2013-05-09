@@ -17,4 +17,7 @@ class CameraManager(cameras.CameraManager):
     
     def list(self):
         return self._list('/admin/cameras', "cameras")
+    
+    def get(self, camera_id):
+        return self._get('/admin/cameras/%s'%str(camera_id), 'camera')
         

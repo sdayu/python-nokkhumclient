@@ -66,7 +66,7 @@ class CameraManager(base.Manager):
         return self._get('/projects/%s/cameras/%s'%(str(project_id), str(camera_id)), 'camera')
     
     def delete(self, camera):
-        return self._delete('/cameras/%d'%camera.id)
+        return self._delete('/cameras/%s'%camera.id)
     
     def create(self, **kwargs):
         
@@ -80,4 +80,4 @@ class CameraManager(base.Manager):
                 camera=self.body_builer(camera)
                 )
         
-        return self._update('/cameras/%d'%camera.id, "camera", body)
+        return self._update('/cameras/%s'%camera.id, "camera", body)
