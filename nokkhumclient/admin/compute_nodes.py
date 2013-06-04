@@ -6,6 +6,7 @@ Created on Mar 6, 2013
 from .. import base
 from . import cpu_information
 from . import memory_information
+from . import disk_information
 
 class ComputeNode(base.Resource):
     
@@ -20,6 +21,12 @@ class ComputeNode(base.Resource):
         if 'memory' not in self._info:
             self.get()
         return memory_information.MemoryInformation(self.manager.api.admin.memory_information, self._info['memory'])
+    
+    @property
+    def disk(self):
+        if 'disk' not in self._info:
+            self.get()
+        return disk_information.DiskInformation(self.manager.api.admin.disk_information, self._info['disk'])
     
 
 class ComputeNodeManager(base.Manager):
