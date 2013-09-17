@@ -99,13 +99,22 @@ class Manager:
                 if v != val:
                     if type(val) is datetime.datetime:
                         val = val.isoformat()
+                    elif type(val) is list:
+                        val_list = []
+                        for vl in val:
+                            if isinstance(vl, Resource):
+                                val_list.append(vl._info)
+                            else:
+                                val_list.append(vl)
+                        val = val_list
+                                
                     elif isinstance(val, Resource):
-                        continue
+                        val = val._info
+                        #continue
 
                     obj._info[k] = val
                          
             except:
-#                print("key error:", k)
                 pass
             
         return obj._info

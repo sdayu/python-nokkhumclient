@@ -10,8 +10,11 @@ class Project(base.Resource):
     
     @property
     def cameras(self):
-
         return self.manager.api.cameras.list_cameras_by_project(self.id)
+    
+    @property
+    def processors(self):
+        return self.manager.api.processors.list_processors_by_project(self.id)
     
 
 class ProjectManager(base.Manager):
@@ -24,7 +27,6 @@ class ProjectManager(base.Manager):
         return self._list('/projects', "projects")
     
     def get(self, project_id):
-        print("project_id:",project_id)
         return self._get('/projects/%s'%str(project_id), "project")
     
     def delete(self, project):

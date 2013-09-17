@@ -15,8 +15,8 @@ class StorageManager(base.Manager):
     resource_class = Storage
     
     
-    def list_by_camera(self, camera_id):
-        return self._list('/storage/%s'%(camera_id), "files")
+    def list_by_processor(self, processor_id):
+        return self._list('/storage/%s'%(processor_id), "files")
     
     def list(self, path):
         if path[-1:] == '/':

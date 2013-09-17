@@ -8,10 +8,11 @@ import json
 
 from . import accounts
 from . import cameras
-from . import camera_operating
+from . import processor_operating
 from . import camera_manufactory
 from . import camera_model
 from . import projects
+from . import processors
 from . import storage
 from . import image_processors
 from . import users
@@ -88,7 +89,6 @@ class HTTPClient:
         return self._cs_request(url, 'POST', **kwargs)
 
     def put(self, url, **kwargs):
-        print("PUT:", url)
         return self._cs_request(url, 'PUT', **kwargs)
 
     def delete(self, url, **kwargs):
@@ -121,7 +121,7 @@ class Client:
 
         self.accounts = accounts.AccountManager(self)
         self.cameras = cameras.CameraManager(self)
-        self.camera_operating = camera_operating.CameraOperatingManager(self)
+        self.processor_operating = processor_operating.ProcessorOperatingManager(self)
         self.projects = projects.ProjectManager(self)
         self.storage = storage.StorageManager(self)
         self.camera_models = camera_model.CameraModelManager(self)
@@ -129,6 +129,7 @@ class Client:
         self.image_processors = image_processors.ImageProcessorManager(self)
         self.users = users.UserManager(self)
         self.roles = roles.RoleManager(self)
+        self.processors = processors.ProcessorManager(self)
         
         # admin
         self.admin = admin.AdministratorClient(self)

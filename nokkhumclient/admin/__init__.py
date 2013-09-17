@@ -5,7 +5,7 @@ from . import camera_command_queue
 from . import cpu_information
 from . import memory_information
 from . import disk_information
-from . import camera_operating
+from . import processor_operating
 from . import users
 from . import camera_running_fail
 
@@ -15,7 +15,7 @@ class AdministratorClient:
         self.client = client
         
         self.cameras = cameras.CameraManager(self.client)
-        self.camera_operating = camera_operating.CameraOperatingManager(self.client)
+        self.processor_operating = processor_operating.ProcessorOperatingManager(self.client)
         self.camera_command_queue = camera_command_queue.CameraCommandQueueManager(self.client)
         self.command_log = command_log.CommandLogManager(self.client)
         self.compute_nodes = compute_nodes.ComputeNodeManager(self.client)

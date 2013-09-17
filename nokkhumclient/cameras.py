@@ -12,14 +12,6 @@ class Camera(base.Resource):
         return self.manager.api.projects.get(self._info['project']['id'])
 
     @property
-    def operating(self):
-        return self.manager.api.camera_operating.get(self.id)
-    
-    @property
-    def storage(self):
-        return self.manager.api.storage.list_by_camera(self.id)
-    
-    @property
     def camera_model(self):
         return camera_model.CameraModel(
                     self.manager.api.camera_models,
@@ -35,17 +27,6 @@ class Camera(base.Resource):
         del self._info['model']['manufactory']
         
     @property
-    def image_processors(self):
-        return self._info['image_processors']
-                    
-    @image_processors.setter
-    def image_processors(self, image_processors):
-        if 'image_processors' in self._info:
-            self._info['image_processors'] = {}
-
-        self._info['image_processors'] = image_processors
-        
-    @property
     def owner(self):            
         return users.User(self.manager.api.users, self._info['owner'])
         
@@ -56,6 +37,9 @@ class CameraManager(base.Manager):
     def list_cameras_by_project(self, project_id):
         return self._list('/projects/%s/cameras'%str(project_id), 'cameras')
     
+    def list_cameras_by_processor(self, processor_id):
+        return self._list('/processors/%s/cameras'%str(processor_id), 'cameras')
+        
     def list(self):
         return self._list('/cameras', "cameras")
     
