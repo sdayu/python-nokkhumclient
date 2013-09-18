@@ -19,6 +19,7 @@ class Processor(base.Resource):
 
     @property
     def operating(self):
+        print("self._info['processor_operating']:", self._info['processor_operating'])
         if 'processor_operating' in self._info:
             return processor_operating.ProcessorOperating(
                         self.manager.api.processor_operating,

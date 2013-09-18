@@ -18,6 +18,6 @@ class ProcessorOperatingManager(base.Manager):
     
     def update(self, processor, action):
         body = dict(
-                    camera_operating=dict(action=action)
+                    processor_operating=dict(action=action)
                     )
         return self._update('/processors/%s/operating'%str(processor.id), "processor_operating", body)

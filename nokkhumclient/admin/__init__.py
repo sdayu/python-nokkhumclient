@@ -1,7 +1,9 @@
 from . import cameras
 from . import command_log
 from . import compute_nodes
-from . import camera_command_queue
+from . import processor_command_queue
+from . import processor_commands
+from . import processors
 from . import cpu_information
 from . import memory_information
 from . import disk_information
@@ -15,8 +17,10 @@ class AdministratorClient:
         self.client = client
         
         self.cameras = cameras.CameraManager(self.client)
+        self.processors = processors.ProcessorManager(self.client)
         self.processor_operating = processor_operating.ProcessorOperatingManager(self.client)
-        self.camera_command_queue = camera_command_queue.CameraCommandQueueManager(self.client)
+        self.processor_command_queue = processor_command_queue.ProcessorCommandQueueManager(self.client)
+        self.processor_commands = processor_commands.ProcessorCommandManager(self.client)
         self.command_log = command_log.CommandLogManager(self.client)
         self.compute_nodes = compute_nodes.ComputeNodeManager(self.client)
         self.cpu_information = cpu_information.CPUInformationManager(self.client)

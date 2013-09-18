@@ -8,11 +8,12 @@ import json
 
 from . import accounts
 from . import cameras
+from . import processors
+from . import processor_commands
 from . import processor_operating
 from . import camera_manufactory
 from . import camera_model
 from . import projects
-from . import processors
 from . import storage
 from . import image_processors
 from . import users
@@ -121,7 +122,6 @@ class Client:
 
         self.accounts = accounts.AccountManager(self)
         self.cameras = cameras.CameraManager(self)
-        self.processor_operating = processor_operating.ProcessorOperatingManager(self)
         self.projects = projects.ProjectManager(self)
         self.storage = storage.StorageManager(self)
         self.camera_models = camera_model.CameraModelManager(self)
@@ -130,6 +130,8 @@ class Client:
         self.users = users.UserManager(self)
         self.roles = roles.RoleManager(self)
         self.processors = processors.ProcessorManager(self)
+        self.processor_operating = processor_operating.ProcessorOperatingManager(self)
+        self.processor_commands = processor_commands.ProcessorCommandManager(self)
         
         # admin
         self.admin = admin.AdministratorClient(self)
