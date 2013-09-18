@@ -6,6 +6,8 @@ Created on Mar 1, 2013
 
 from .. import processors
 from . import compute_nodes
+from . import processor_operating
+
 class Processor(processors.Processor):
     
     @property
@@ -13,6 +15,17 @@ class Processor(processors.Processor):
         if 'compute_node' in self._info:
             return compute_nodes.ComputeNode(self.manager.api.admin.compute_nodes, self._info['compute_node'])
         return None
+    
+    @property
+    def operating(self):
+        if 'processor_operating' in self._info:
+            return processor_operating.ProcessorOperating(
+                        self.manager.api.processor_operating,
+                        self._info['processor_operating']
+                    )
+        
+        return self.manager.api.processor_operating.get(self.id)
+    
 
 
 class ProcessorManager(processors.ProcessorManager):
