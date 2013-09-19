@@ -37,3 +37,6 @@ class ComputeNodeManager(base.Manager):
     
     def get(self, compute_node_id):
         return self._get('/admin/compute_nodes/%s'%str(compute_node_id), 'compute_node')
+    
+    def delete(self, compute_node_id):
+        return self._delete('/admin/compute_nodes/%s'%str(compute_node_id))

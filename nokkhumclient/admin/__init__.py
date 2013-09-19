@@ -9,7 +9,8 @@ from . import memory_information
 from . import disk_information
 from . import processor_operating
 from . import users
-from . import camera_running_fail
+from . import processor_running_fail
+from . import cache
 
 
 class AdministratorClient:
@@ -27,4 +28,6 @@ class AdministratorClient:
         self.memory_information = memory_information.MemoryInformationManager(self.client)
         self.disk_information = disk_information.DiskInformationManager(self.client)
         self.users = users.UserManager(self.client)
-        self.camera_running_fail = camera_running_fail.CameraRunningFailManager(self.client)
+        self.processor_running_fail = processor_running_fail.ProcessorRunningFailManager(self.client)
+        
+        self.cache = cache.CacheManager(self.client)
