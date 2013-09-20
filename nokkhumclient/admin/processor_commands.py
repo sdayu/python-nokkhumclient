@@ -6,6 +6,7 @@ Created on Mar 6, 2013
 from .. import processor_commands
 from . import users
 from . import processors
+from . import compute_nodes
 
 class ProcessorCommand(processor_commands.ProcessorCommand):
     @property
@@ -14,7 +15,23 @@ class ProcessorCommand(processor_commands.ProcessorCommand):
     
     @property
     def owner(self):
+        if 'owner' not in self._info:
+            return None
+        
+        if self._info['owner'] is None:
+            return None
+        
         return users.User(self.manager.api.admin.users, self._info['owner'])
+    
+    @property
+    def compute_node(self):
+        if 'compute_node' not in self._info:
+            return None
+        
+        if self._info['compute_node'] is None:
+            return None
+        
+        return compute_nodes.ComputeNode(self.manager.api.admin.compute_nodes, self._info['compute_node'])
 
 class ProcessorCommandManager(processor_commands.ProcessorCommandManager):
     resource_class = ProcessorCommand
