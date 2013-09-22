@@ -11,6 +11,9 @@ from . import compute_nodes
 class ProcessorCommand(processor_commands.ProcessorCommand):
     @property
     def processor(self):
+        if self._info['processor'] is None:
+            return None
+        
         return processors.Processor(self.manager.api.admin.processors, self._info['processor'])
     
     @property
