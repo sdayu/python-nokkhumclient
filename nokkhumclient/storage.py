@@ -33,6 +33,9 @@ class StorageManager(base.Manager):
     def delete(self, storage):
         return self._delete(storage.url)
     
+    def delete_identify(self, indentify):
+        return self._delete(indentify)
+    
 #    def create(self):
 #        pass
 #    
