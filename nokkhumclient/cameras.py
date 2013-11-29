@@ -3,6 +3,7 @@ from . import camera_manufactory
 from . import camera_model
 from . import image_processors
 from . import users
+import json
 import datetime
 
 class Camera(base.Resource):
@@ -57,6 +58,10 @@ class CameraManager(base.Manager):
         body = dict(
                     camera=kwargs
                     )
+        return self._create('/cameras', "camera", body)
+    
+    def create_by_json(self, camera_json):
+        body = json.loads(camera_json)
         return self._create('/cameras', "camera", body)
     
     def update(self, camera):        

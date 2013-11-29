@@ -20,6 +20,8 @@ from . import users
 from . import roles
 from . import admin
 
+from . import processor_resources
+
 
 class HTTPClient:
     def __init__(self, username, password, host, port=80, secure_connection=False, token=None):
@@ -132,6 +134,8 @@ class Client:
         self.processors = processors.ProcessorManager(self)
         self.processor_operating = processor_operating.ProcessorOperatingManager(self)
         self.processor_commands = processor_commands.ProcessorCommandManager(self)
+        
+        self.processor_resources = processor_resources.ProcessorResourceManager(self)
         
         # admin
         self.admin = admin.AdministratorClient(self)
