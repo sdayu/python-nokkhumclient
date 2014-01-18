@@ -22,6 +22,7 @@ from . import admin
 from . import groups
 from . import notification
 from . import billing
+from . import billing_cycle
 from . import processor_resources
 
 
@@ -139,6 +140,7 @@ class Client:
         
         self.processor_resources = processor_resources.ProcessorResourceManager(self)
         self.billing = billing.BillingManager(self)
+        self.billing_cycle = billing_cycle.BillingCycleManager(self)
         
         # admin
         self.admin = admin.AdministratorClient(self)
