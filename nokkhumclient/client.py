@@ -19,7 +19,7 @@ from . import image_processors
 from . import users
 from . import roles
 from . import admin
-
+from . import billing
 from . import processor_resources
 
 
@@ -136,6 +136,7 @@ class Client:
         self.processor_commands = processor_commands.ProcessorCommandManager(self)
         
         self.processor_resources = processor_resources.ProcessorResourceManager(self)
+        self.billing = billing.BillingManager(self)
         
         # admin
         self.admin = admin.AdministratorClient(self)
