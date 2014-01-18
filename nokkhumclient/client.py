@@ -19,6 +19,8 @@ from . import image_processors
 from . import users
 from . import roles
 from . import admin
+from . import groups
+from . import notification
 from . import billing
 from . import processor_resources
 

@@ -7,4 +7,3 @@ class Account(base.Resource):
 class AccountManager(base.Manager):
     
     resource_class = Account
-    

@@ -21,16 +21,34 @@ class ProjectManager(base.Manager):
     resource_class = Project
     
     def list_user_projects(self, user_id):
-        return self._list('/users/%s/projects'%user_id, "projects")
+        return self._list('/users/%s/projects' % user_id, "projects")
     
     def list(self):
         return self._list('/projects', "projects")
     
+    def permissions(self, project_id, user_id):
+        return self._list('/projects/%s/permissions/%s' % (project_id, user_id), 'permissions')
+    
+    def update_permissions(self, project_id, user_id, permission):        
+        body = dict(
+                permissions=permission
+                )
+        return self._update('/projects/%s/permissions/%s' % (project_id, user_id), 'permissions', body)
+    
     def get(self, project_id):
-        return self._get('/projects/%s'%str(project_id), "project")
+        return self._get('/projects/%s' % str(project_id), "project")
+    
+    def get_processors(self, project_id):
+        return self._get('/projects/%s/processors' % str(project_id), "processors")
     
     def delete(self, project):
-        return self._delete('/projects/%s'%project.id)
+        return self._delete('/projects/%s' % project.id)
+    
+    def add_user(self, project_id, **kwargs):
+        body = dict(
+                  collaborator=kwargs
+                  )
+        self._create('/projects/%s/collaboration' % project_id, 'collaborator', body)
     
     def create(self, **kwargs):
         body = dict(
@@ -38,5 +56,4 @@ class ProjectManager(base.Manager):
                     )
         self._create('/projects', 'project', body)
     
-    def update(self):
-        pass
+    
