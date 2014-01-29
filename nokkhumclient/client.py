@@ -138,6 +138,9 @@ class Client:
         self.processor_operating = processor_operating.ProcessorOperatingManager(self)
         self.processor_commands = processor_commands.ProcessorCommandManager(self)
         
+        self.groups = groups.GroupManager(self)
+        self.notification = notification.NotificationManager(self)
+        
         self.processor_resources = processor_resources.ProcessorResourceManager(self)
         self.billing = billing.BillingManager(self)
         self.billing_cycle = billing_cycle.BillingCycleManager(self)
