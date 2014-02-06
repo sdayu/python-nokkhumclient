@@ -24,7 +24,7 @@ from . import notification
 from . import billing
 from . import billing_cycle
 from . import processor_resources
-
+from . import service_plan
 
 class HTTPClient:
     def __init__(self, username, password, host, port=80, secure_connection=False, token=None):
@@ -141,7 +141,7 @@ class Client:
         self.processor_resources = processor_resources.ProcessorResourceManager(self)
         self.billing = billing.BillingManager(self)
         self.billing_cycle = billing_cycle.BillingCycleManager(self)
-        
+        self.service_plans = service_plan.ServicePlanManager(self)
         # admin
         self.admin = admin.AdministratorClient(self)
         
