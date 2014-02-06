@@ -7,3 +7,9 @@ class Account(base.Resource):
 class AccountManager(base.Manager):
     
     resource_class = Account
+    
+    def register(self, **kwargs):
+        body = dict(
+                    user=kwargs
+                    )
+        self._create('/accounts', 'user', body)
