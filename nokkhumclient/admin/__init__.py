@@ -10,6 +10,7 @@ from . import processor_operating
 from . import users
 from . import processor_running_fail
 from . import cache
+from . import billing
 
 
 class AdministratorClient:
@@ -27,5 +28,6 @@ class AdministratorClient:
         self.disk_information = disk_information.DiskInformationManager(self.client)
         self.users = users.UserManager(self.client)
         self.processor_running_fail = processor_running_fail.ProcessorRunningFailManager(self.client)
+        self.billings = billing.BillingManager(self.client)
         
         self.cache = cache.CacheManager(self.client)

@@ -7,6 +7,7 @@ Created on Mar 1, 2013
 from .. import processors
 from . import compute_nodes
 from . import processor_operating
+import urllib
 
 class Processor(processors.Processor):
     
@@ -31,8 +32,12 @@ class Processor(processors.Processor):
 class ProcessorManager(processors.ProcessorManager):
     resource_class = Processor
     
-    def list(self):
-        return self._list('/admin/processors', "processors")
+    def list(self, **kws):
+        url = '/admin/processors'
+        if len(kws) > 0:
+            parameters = urllib.parse.urlencode(kws)
+            url += '?'+parameters
+        return self._list(url, "processors")
     
     def get(self, processor_id):
         return self._get('/admin/processors/%s'%str(processor_id), "processor")
