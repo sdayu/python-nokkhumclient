@@ -11,6 +11,7 @@ from . import users
 from . import processor_running_fail
 from . import cache
 from . import billing
+from . import default_service_plan
 
 
 class AdministratorClient:
@@ -29,5 +30,6 @@ class AdministratorClient:
         self.users = users.UserManager(self.client)
         self.processor_running_fail = processor_running_fail.ProcessorRunningFailManager(self.client)
         self.billings = billing.BillingManager(self.client)
+        self.default_service_plans = default_service_plan.DefaultServicePlanManager(self.client)
         
         self.cache = cache.CacheManager(self.client)
