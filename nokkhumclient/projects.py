@@ -42,7 +42,10 @@ class ProjectManager(base.Manager):
         return self._get('/projects/%s/processors' % str(project_id), "processors")
     
     def delete(self, project):
-        return self._delete('/projects/%s' % project.id)
+        if type(project) == self.resource_class:
+            return self._delete('/projects/%s' % project.id)
+        
+        return self._delete('/projects/%s' % project)
     
     def add_user(self, project_id, **kwargs):
         body = dict(
@@ -54,6 +57,11 @@ class ProjectManager(base.Manager):
         body = dict(
                     project=kwargs
                     )
-        self._create('/projects', 'project', body)
+        return self._create('/projects', 'project', body)
     
-    
+    def update(self, project):
+        body = dict(
+                    project=self.body_builer(project)
+                    )
+        print("body:", body)
+        return self._update('/projects/%s'%project.id , 'project', body)
