@@ -7,6 +7,7 @@ from .. import base
 from . import cpu_information
 from . import memory_information
 from . import disk_information
+from . import vms
 
 class ComputeNode(base.Resource):
     
@@ -27,7 +28,14 @@ class ComputeNode(base.Resource):
         if 'disk' not in self._info:
             self.get()
         return disk_information.DiskInformation(self.manager.api.admin.disk_information, self._info['disk'])
-    
+
+    @property
+    def vm(self):
+        if not self._info['is_vm']:
+            return None
+        else:
+            return self.manager.api.admin.vms.get(self.id)
+            
 
 class ComputeNodeManager(base.Manager):
     resource_class = ComputeNode

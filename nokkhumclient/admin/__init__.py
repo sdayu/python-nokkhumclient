@@ -1,5 +1,6 @@
 from . import cameras
 from . import compute_nodes
+from . import vms
 from . import processor_command_queue
 from . import processor_commands
 from . import processors
@@ -24,6 +25,7 @@ class AdministratorClient:
         self.processor_command_queue = processor_command_queue.ProcessorCommandQueueManager(self.client)
         self.processor_commands = processor_commands.ProcessorCommandManager(self.client)
         self.compute_nodes = compute_nodes.ComputeNodeManager(self.client)
+        self.vms = vms.VMManager(self.client)
         self.cpu_information = cpu_information.CPUInformationManager(self.client)
         self.memory_information = memory_information.MemoryInformationManager(self.client)
         self.disk_information = disk_information.DiskInformationManager(self.client)
