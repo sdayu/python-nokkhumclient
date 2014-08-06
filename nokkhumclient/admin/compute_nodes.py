@@ -9,6 +9,19 @@ from . import memory_information
 from . import disk_information
 
 
+class Resource(base.Resource):
+    pass
+
+
+class ResourceManager(base.Manager):
+    resource_class = Resource
+
+    def list(self, compute_node_id):
+        return self._list('/admin/compute_nodes/%s/resources'
+                          % str(compute_node_id),
+                          'resources')
+
+
 class ComputeNode(base.Resource):
 
     @property
@@ -61,6 +74,8 @@ class ComputeNodeManager(base.Manager):
 
     def get_processors(self, compute_node_id):
         return self._list('/admin/compute_nodes/%s/processors'
-                         % str(compute_node_id),
-                         'processors')
-    
+                          % str(compute_node_id),
+                          'processors')
+
+    def get_resources(self, compute_node_id):
+        return ResourceManager(self.api).list(compute_node_id)
