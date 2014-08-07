@@ -9,6 +9,21 @@ from . import compute_nodes
 from . import processor_operating
 import urllib
 
+from .. import base
+
+
+class Resource(base.Resource):
+    pass
+
+
+class ResourceManager(base.Manager):
+    resource_class = Resource
+
+    def list(self, resource_id):
+        return self._list('/admin/processors/%s/resources'
+                          % str(resource_id),
+                          'resources')
+
 
 class Processor(processors.Processor):
 
@@ -48,3 +63,6 @@ class ProcessorManager(processors.ProcessorManager):
             )
 
         return self._update('/admin/processors/%s'%str(processor.id), "processor", body)
+
+    def get_resources(self, processor_id):
+        return ResourceManager(self.api).list(processor_id)
