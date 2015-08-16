@@ -7,6 +7,7 @@ from .. import base
 from . import cpu_information
 from . import memory_information
 from . import disk_information
+from . import machine_specification
 
 
 class Resource(base.Resource):
@@ -54,6 +55,15 @@ class ComputeNode(base.Resource):
             return None
         else:
             return self.manager.api.admin.vms.get(self.id)
+
+    @property
+    def machine_specification(self):
+        if not 'machine_specification' in self._info:
+            return None
+
+        return machine_specification.MachineSpecification(
+                self.manager.api.admin.machine_specification,
+                self._info['machine_specification'])
 
 
 class ComputeNodeManager(base.Manager):

@@ -13,12 +13,13 @@ from . import processor_running_fail
 from . import cache
 from . import billing
 from . import default_service_plan
+from . import machine_specification
 
 
 class AdministratorClient:
     def __init__(self, client):
         self.client = client
-        
+
         self.cameras = cameras.CameraManager(self.client)
         self.processors = processors.ProcessorManager(self.client)
         self.processor_operating = processor_operating.ProcessorOperatingManager(self.client)
@@ -33,5 +34,6 @@ class AdministratorClient:
         self.processor_running_fail = processor_running_fail.ProcessorRunningFailManager(self.client)
         self.billings = billing.BillingManager(self.client)
         self.default_service_plans = default_service_plan.DefaultServicePlanManager(self.client)
-        
+        self.machine_specification = machine_specification.MachineSpecificationManager(self.client)
         self.cache = cache.CacheManager(self.client)
+
