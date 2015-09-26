@@ -57,12 +57,13 @@ class ProcessorManager(processors.ProcessorManager):
     def get(self, processor_id):
         return self._get('/admin/processors/%s' % str(processor_id), "processor")
 
-    def update(self, processor, action):
+    def update(self, processor):
         body = dict(
-            processor_operating=dict(action=action)
-            )
+            processor=self.body_builer(processor)
+        )
 
         return self._update('/admin/processors/%s'%str(processor.id), "processor", body)
 
     def get_resources(self, processor_id):
         return ResourceManager(self.api).list(processor_id)
+
